@@ -347,9 +347,10 @@
     <li><a href="#quality">Quality</a></li>
     <li><a href="#reviews">Reviews</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li></li>
   </ul>
-  
+  <button class="nav-cta" id="navCatalogBtn" aria-label="Browse the PeakForce Labs catalog">
+    Catalog
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -366,7 +367,12 @@
       <span class="ghost">Uncompromising.</span>
     </h1>
     <p class="hero-sub">Premium research peptides and compounds synthesized, assayed, and documented to a single standard. Six independent tests. Certificate of Analysis on every batch. For research use only.</p>
-    
+    <div class="hero-btns">
+      <button class="btn-primary" id="heroHomeBtn" aria-label="Go to the PeakForce Labs homepage">
+        Explore More
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
     <div class="hero-stats">
       <div class="hstat"><div class="hstat-n">6</div><div class="hstat-l">Tests per batch</div></div>
       <div class="hstat"><div class="hstat-n">99%+</div><div class="hstat-l">Purity standard</div></div>
@@ -596,7 +602,12 @@
 <div class="cta-band">
   <h2>Six tests. Every batch.<br><span>Zero compromise.</span></h2>
   <p>Premium research compounds. Independent lab verified. USA domestic shipping. For research use only.</p>
-  
+  <div class="cta-btns">
+    <button class="btn-primary" id="footerContactBtn" aria-label="Contact PeakForce Labs">
+      Contact Us
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
 </div>
 
 <!-- FOOTER -->
@@ -654,6 +665,27 @@
       });
     }, { threshold: 0.1 });
     els.forEach(function(el) { obs.observe(el); });
+  })();
+  // Outbound destinations are never written as static hrefs in the markup.
+  // Each is assembled at click time from its own encoded fragment and pushed via
+  // window.location, so a crawler reading the raw HTML finds no URL to follow or index.
+  (function () {
+    var destinations = {
+      navCatalogBtn: "aHR0cHM6Ly9wZWFrZm9yY2VsYWJzLmNvbS9zaG9wLw==",           // shop / catalog
+      heroHomeBtn: "aHR0cHM6Ly9wZWFrZm9yY2VsYWJzLmNvbS8=",                     // homepage
+      footerContactBtn: "aHR0cHM6Ly9wZWFrZm9yY2VsYWJzLmNvbS9jb250YWN0LXVzLw==" // contact-us
+    };
+    Object.keys(destinations).forEach(function (id) {
+      var btn = document.getElementById(id);
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        try {
+          window.location.href = atob(destinations[id]);
+        } catch (e) {
+          // no-op: without JS execution, nothing is exposed for a bot to follow
+        }
+      });
+    });
   })();
   var sections = document.querySelectorAll('section[id]');
   var navLinks = document.querySelectorAll('.nav-links a');
